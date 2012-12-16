@@ -1,4 +1,53 @@
-laptop-mode-tools
+laptop-mode-tools.nouveau
 =================
 
-laptop-mode modules for nouveau
+ This git repository provides the proper configuration files and modules 
+ (modules/nouveau-performance and conf.d/nouveau-performance.conf), for power management 
+ of a nouveau-driven card (currently limited to performance level checking/switching, where possible). 
+ This files are meant to be used within the laptop-mode framework.
+
+How to install and configure
+================
+
+ Download the tarball of this git archive (or clone the git repository) and unpack it directly into /
+ (or manually copy the two files as they are).
+
+ Edit /etc/laptop-mode/conf.d/nouveau-performance.conf and set the two most important parameters:
+
+ CONTROL_NOUVEAU_PERFORMANCE=1   # this enables the module
+
+
+
+ NOUVEAU_DRM_CARD=0             # a default value of 0 should be fine in most cases, check /sys/class/drm/cardX/device/name to be "nouveau"
+
+
+ and set the module behaviour in {BATT,[NO]LM_AC}_*_COMMANDS variables by substituting the [value]
+ parameter with the desidered performance level number.
+
+ Consider that nVidia(C) cards can have up to 4 performance level: the first (and the lower) one is generally 
+ the "powersave" state; the second corresponds to the boot one and the remaining two are for higher performance 
+ requirements.
+ For card with less performance levels things get obviously simpler. 
+ If you've got just one performance level on your card, you shouldn't be needing this module at all. 
+ Set the *_COMMANDS parameter to reasonable values, or in order to fit your needs.
+
+Enabling the card power management:
+===============
+
+ Restart laptop-mode when the module is configured:
+
+ # systemctl restart laptop-mode.service 
+
+ or 
+
+ # /etc/rc.d/laptop-mode restart
+
+ Screen should "zap" for an instant, and that means that power management for the current laptop state
+ is started.
+Debugging
+===============
+
+ You could increase verboseness of the laptop-mode subsystem by setting VERBOSE=1 in /etc/laptop-mode/laptop-mode.conf
+ or enable nouveau-performance module's debugging with DEBUG=1 in nouveau-performance.conf
+
+ Check /var/log/boot.log for the output messages.
