@@ -1,0 +1,49 @@
+#! /bin/sh
+#
+# Laptop mode tools module: control performance level on Nouveau managed cards
+#
+
+
+# Based on LCD Brightness control module
+
+if [ x$CONTROL_NOUVEAU_PERFORMANCE = x1 ] ; then
+
+	# Convenience functions/variables 
+
+	NOUVEAU_DRM_PERFLVL_FILE="$NOUVEAU_PERFLVL_OUTPUT"
+	NOUVEAU_DRM_PERFLVLS="$(ls ${NOUVEAU_DRM_PERFLVL_FILE}_* | sed -e 's|.*_||g' ) | tr \n \ "
+	NOUVEAU_DRM_CURRENT_PERFLVL="$(cat ${NOUVEAU_DRM_PERFLVL_FILE} | tail -1 )"	# More interesting for verboseness
+
+#	NOUVEAU_DRM_CURRENT_PERFLVL_N="$(cat ${NOUVEAU_DRM_PERFLVL_FILE} | head -1 | sed -e 's|profile: [0-9]*\, ||g' )"
+
+	if [ $ON_AC -eq 1 ]; then
+		if [ "$ACTIVATE" -eq 1 ]; then
+			NOUVEAU_PERFLVL_COMMAND="$LM_AC_NOUVEAU_PERFLVL_COMMAND"
+		else
+			NOUVEAU_PERFLVL_COMMAND="$NOLM_AC_NOUVEAU_PERFLVL_COMMAND"
+		fi
+	else
+		NOUVEAU_PERFLVL_COMMAND="$BATT_NOUVEAU_PERFLVL_COMMAND"
+	fi
+	if [ -f /var/run/laptop-mode-tools/state-nouveau-performance-command ] ; then
+		OLD_NOUVEAU_PERFLVL_COMMAND="$( cat /var/run/laptop-mode-tools/state-nouveau-performance-command )"
+	fi
+	
+	if [ "$FORCE" -ne 0 -o "$NOUVEAU_PERFLVL_COMMAND" != "$OLD_NOUVEAU_PERFLVL_COMMAND" ] ; then
+		log "VERBOSE" "Setting performance level on nouveau ${NOUVEAU_DRM_CARD} using command $NOUVEAU_PERFLVL_COMMAND \> $NOUVEAU_PERFLVL_OUTPUT"
+		log "VERBOSE" "Total performance levels found : ${NOUVEAU_DRM_PERFLVLS}"
+		log "VERBOSE" "Current performance level      : ${NOUVEAU_DRM_CURRENT_PERFLVL}"
+
+		if ( $NOUVEAU_PERFLVL_COMMAND > $NOUVEAU_PERFLVL_OUTPUT ) ; then
+			log "VERBOSE" "Command succeeded."
+		else
+			log "ERR" "The configured nouveau performance level command of the nouveau-performance command failed."
+			log "ERR" "Please check your configuration in /etc/laptop-mode/conf.d/nouveau-performance.conf."
+			log "ERR" "Command failed."
+		fi
+		echo -n $NOUVEAU_PERFLVL_COMMAND > /var/run/laptop-mode-tools/state-nouveau-performance-command
+	else
+		log "VERBOSE" "Not setting nouveau's performance level -- command was the same as last time."
+	fi
+fi
+
