@@ -51,3 +51,8 @@ Debugging
  or enable nouveau-performance module's debugging with DEBUG=1 in nouveau-performance.conf
 
  Check /var/log/boot.log for the output messages.
+ 
+License
+===============
+
+ This package is distributed under the version 2 of the General Public License.
