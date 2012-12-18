@@ -31,7 +31,7 @@ How to install and configure
  If you've got just one performance level on your card, you shouldn't be needing this module at all. 
  Set the *_COMMANDS parameter to reasonable values, or in order to fit your needs.
 
-Enabling the card power management:
+Enabling the card power management
 ===============
 
  Restart laptop-mode when the module is configured:
@@ -42,8 +42,9 @@ Enabling the card power management:
 
  # /etc/rc.d/laptop-mode restart
 
- Screen should "zap" for an instant, and that means that power management for the current laptop state
- is started.
+ Screen should "zap" for an instant (actually that's what nouveau does when recklocking the card), and that means that power management for the current laptop state
+ has been started.
+
 Debugging
 ===============
 
