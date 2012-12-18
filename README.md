@@ -6,8 +6,7 @@ laptop-mode-tools.nouveau
  of a nouveau-driven card (currently limited to performance level checking/switching, where possible). 
  This files are meant to be used within the laptop-mode framework.
 
-How to install and configure
-================
+##How to install and configure
 
  Download the tarball of this git archive (or clone the git repository) and unpack it directly into /
  (or manually copy the two files as they are).
@@ -18,7 +17,7 @@ How to install and configure
 
 
 
- NOUVEAU_DRM_CARD=0             # a default value of 0 should be fine in most cases, check /sys/class/drm/cardX/device/name to be "nouveau"
+ NOUVEAU_DRM_CARD=0             # 0 should be fine in most cases, check /sys/class/drm/cardX/device/name to be "nouveau"
 
 
  and set the module behaviour in {BATT,[NO]LM_AC}_*_COMMANDS variables by substituting the [value]
@@ -31,8 +30,7 @@ How to install and configure
  If you've got just one performance level on your card, you shouldn't be needing this module at all. 
  Set the *_COMMANDS parameter to reasonable values, or in order to fit your needs.
 
-Enabling the card power management
-===============
+##Enabling the card power management
 
  Restart laptop-mode when the module is configured:
 
@@ -45,15 +43,13 @@ Enabling the card power management
  Screen should "zap" for an instant (actually that's what nouveau does when recklocking the card), and that means that power management for the current laptop state
  has been started.
 
-Debugging
-===============
+##Debugging
 
  You could increase verboseness of the laptop-mode subsystem by setting VERBOSE=1 in /etc/laptop-mode/laptop-mode.conf
  or enable nouveau-performance module's debugging with DEBUG=1 in nouveau-performance.conf
 
  Check /var/log/boot.log for the output messages.
  
-License
-===============
+##License
 
  This package is distributed under the version 2 of the General Public License.
