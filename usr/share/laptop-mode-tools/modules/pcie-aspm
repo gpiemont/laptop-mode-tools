@@ -1,0 +1,47 @@
+#! /bin/sh
+#
+# Laptop mode tools module: tune the PCI-E link through Active State Power Management
+#
+
+if [ x$CONTROL_PCIE_ASPM = x1 ] ; then
+
+	# Check the pcie_aspm module is in place
+
+	if [ ! -f $PCI_ASPM_OUTPUT ]; then
+		log "ERR" "PCI-E ASPM (forcibly?) disabled by the kernel, "
+		log "ERR" "unsupported by the board or pcie_aspm module not loaded."
+		log "ERR" "Check your kernel configuration."
+	fi;
+
+	PCIE_ASPM_CURRENT_PROFILE="$(cat $PCIE_ASPM_OUTPUT | sed  "s;.*\(\[.*\]\).*;\1;" | tr -d [[^]] )"
+
+	if [ $ON_AC -eq 1 ]; then
+		if [ "$ACTIVATE" -eq 1 ]; then
+			PCIE_ASPM_COMMAND="$LM_AC_PCIE_ASPM_COMMAND"
+		else
+			PCIE_ASPM_COMMAND="$NOLM_AC_PCIE_ASPM_COMMAND"
+		fi
+	else
+		PCIE_ASPM_COMMAND="$BATT_PCIE_ASPM_COMMAND"
+	fi
+	if [ -f /var/run/laptop-mode-tools/state-pcie-aspm-command ] ; then
+		OLD_PCIE_ASPM_COMMAND="$( cat /var/run/laptop-mode-tools/state-pcie-aspm-command )"
+	fi
+	
+	if [ "$FORCE" -ne 0 -o "$PCIE_ASPM_COMMAND" != "$OLD_PCIE_ASPM_COMMAND" ] ; then
+		log "VERBOSE" "Current PCI-E Link Link mode   : ${PCIE_ASPM_CURRENT_PROFILE}"
+		log "VERBOSE" "Executing : "$PCIE_ASPM_COMMAND > $PCIE_ASPM_OUTPUT "
+
+		if ( $PCIE_ASPM_COMMAND > $PCIE_ASPM_OUTPUT ) ; then
+			log "VERBOSE" "Command succeeded."
+		else
+			log "ERR" "The configured command for the ASPM failed."
+			log "ERR" "Please check your configuration in /etc/laptop-mode/conf.d/pcie-aspm.conf."
+			log "ERR" "Command failed."
+		fi
+		echo -n $PCIE_ASPM_COMMAND > /var/run/laptop-mode-tools/state-pcie-aspm-command
+	else
+		log "VERBOSE" "Not setting PCIe ASPM mode -- command was the same as last time."
+	fi
+fi
+
