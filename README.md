@@ -38,7 +38,7 @@ laptop-mode-tools.pcie_aspm
 ##How to install and configure
 
  The installation procedure of the two files is the same (etc/laptop-mode/conf.d/pcie_aspm.conf and 
- usr/share/pcie_aspm/module/pcie_aspm).
+ usr/share/pcie_aspm/module/pcie_aspm) as nouveau's.
 
  It's working mechanism is simpler than nouveau's, as the ASPM comes up with 3 (2) performance states, 
  tunable via /sys/class/modules/pcie_aspm/policy: performance, powersave and default.
