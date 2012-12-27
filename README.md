@@ -41,13 +41,12 @@ laptop-mode-tools.pcie_aspm
  usr/share/pcie_aspm/module/pcie_aspm).
 
  It's working mechanism is simpler than nouveau's, as the ASPM comes up with 3 (2) performance states, 
- tunable via /sys/class/modules/pcie_aspm/policy:
+ tunable via /sys/class/modules/pcie_aspm/policy: performance, powersave and default. 
+ This module selects one of them, depeding on the state of your laptop.
  
-  performance, powersave and default. This module selects one of them, depeding on the state of your laptop.
- 
- BATT_PCIE_ASPM_COMMAND="echo powersave"     # default values are usually fine
- NOLM_PCIE_ASPM_COMMAND="echo performance"
- LM_PCIE_ASPM_COMMAND="echo default"
+  BATT_PCIE_ASPM_COMMAND="echo powersave"     # default values are usually fine
+  NOLM_PCIE_ASPM_COMMAND="echo performance"
+  LM_PCIE_ASPM_COMMAND="echo default"
  
  CONTROL_PCIE_ASPM=[0,1]   # Enables/disables the module
  
@@ -67,7 +66,7 @@ laptop-mode-tools.pcie_aspm
 ##Debugging
 
  You could increase verboseness of the laptop-mode subsystem by setting VERBOSE=1 in /etc/laptop-mode/laptop-mode.conf
- or enable module's debugging with DEBUG=1 in /etc/laptop-mode/conf.d/module.conf
+ or enable module's debugging with DEBUG=1 in /etc/laptop-mode/conf.d/<module>.conf
 
  Check /var/log/boot.log for the output messages.
  
