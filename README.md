@@ -20,7 +20,7 @@ laptop-mode-tools.nouveau
  NOUVEAU_DRM_CARD=0             # 0 should be fine in most cases, check /sys/class/drm/cardX/device/name to be "nouveau"
 
 
- and set the module behaviour in {BATT,[NO]LM_AC}_*_COMMANDS variables by substituting the [value]
+ and set the module behaviour in {BATT,[NO]LM_AC}_NOUVEAU_DRM_COMMANDS variables by substituting the [value]
  parameter with the desidered performance level number.
 
  Consider that nVidia(C) cards can have up to 4 performance level: the first (and the lower) one is generally 
@@ -30,7 +30,30 @@ laptop-mode-tools.nouveau
  If you've got just one performance level on your card, you shouldn't be needing this module at all. 
  Set the *_COMMANDS parameter to reasonable values, or in order to fit your needs.
 
-##Enabling the card power management
+laptop-mode-tools.pcie_aspm
+=================
+ This package provides also a simple module for the pcie-aspm link tuning. Your laptop can benefit from it, 
+ expecially when working aside the nouveau module, indeed.
+
+##How to install and configure
+
+ The installation procedure of the two files (etc/laptop-mode/conf.d/pcie_aspm.conf and 
+ usr/share/pcie_aspm/module/pcie_aspm) is the same as nouveau's.
+
+ Its working mechanism is simpler, as the ASPM comes up with 3 (2) performance states, 
+ performance, powersave and default, tunable via /sys/class/modules/pcie_aspm/policy 
+ 
+ This module selects one of them, depeding on the state of your laptop.
+ 
+  BATT_PCIE_ASPM_COMMAND="echo powersave"     # default values are usually fine
+  
+  NOLM_PCIE_ASPM_COMMAND="echo performance"
+  
+  LM_PCIE_ASPM_COMMAND="echo default"
+ 
+  CONTROL_PCIE_ASPM=[0,1]                     # Enables/disables the module
+ 
+##Enabling power management
 
  Restart laptop-mode when the module is configured:
 
@@ -46,7 +69,7 @@ laptop-mode-tools.nouveau
 ##Debugging
 
  You could increase verboseness of the laptop-mode subsystem by setting VERBOSE=1 in /etc/laptop-mode/laptop-mode.conf
- or enable nouveau-performance module's debugging with DEBUG=1 in nouveau-performance.conf
+ or enable module's debugging with DEBUG=1 in /etc/laptop-mode/conf.d/<module>.conf
 
  Check /var/log/boot.log for the output messages.
  

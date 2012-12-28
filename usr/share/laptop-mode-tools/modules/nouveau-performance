@@ -8,14 +8,6 @@
 
 if [ x$CONTROL_NOUVEAU_PERFORMANCE = x1 ] ; then
 
-	# Convenience functions/variables 
-
-	NOUVEAU_DRM_PERFLVL_FILE="$NOUVEAU_PERFLVL_OUTPUT"
-	NOUVEAU_DRM_PERFLVLS="$(ls ${NOUVEAU_DRM_PERFLVL_FILE}_* | sed -e 's|.*_||g' ) | tr \n \ "
-	NOUVEAU_DRM_CURRENT_PERFLVL="$(cat ${NOUVEAU_DRM_PERFLVL_FILE} | tail -1 )"	# More interesting for verboseness
-
-#	NOUVEAU_DRM_CURRENT_PERFLVL_N="$(cat ${NOUVEAU_DRM_PERFLVL_FILE} | head -1 | sed -e 's|profile: [0-9]*\, ||g' )"
-
 	if [ $ON_AC -eq 1 ]; then
 		if [ "$ACTIVATE" -eq 1 ]; then
 			NOUVEAU_PERFLVL_COMMAND="$LM_AC_NOUVEAU_PERFLVL_COMMAND"
@@ -30,6 +22,13 @@ if [ x$CONTROL_NOUVEAU_PERFORMANCE = x1 ] ; then
 	fi
 	
 	if [ "$FORCE" -ne 0 -o "$NOUVEAU_PERFLVL_COMMAND" != "$OLD_NOUVEAU_PERFLVL_COMMAND" ] ; then
+
+		NOUVEAU_DRM_PERFLVL_FILE="$NOUVEAU_PERFLVL_OUTPUT"
+		NOUVEAU_DRM_PERFLVLS="$(ls ${NOUVEAU_DRM_PERFLVL_FILE}_* | sed -e 's|.*_||g' ) | tr \n \ "
+		NOUVEAU_DRM_CURRENT_PERFLVL="$(cat ${NOUVEAU_DRM_PERFLVL_FILE} | tail -1 )"	# More interesting for verboseness
+
+#		NOUVEAU_DRM_CURRENT_PERFLVL_N="$(cat ${NOUVEAU_DRM_PERFLVL_FILE} | head -1 | sed -e 's|profile: [0-9]*\, ||g' )"
+
 		log "VERBOSE" "Setting performance level on nouveau ${NOUVEAU_DRM_CARD} using command $NOUVEAU_PERFLVL_COMMAND \> $NOUVEAU_PERFLVL_OUTPUT"
 		log "VERBOSE" "Total performance levels found : ${NOUVEAU_DRM_PERFLVLS}"
 		log "VERBOSE" "Current performance level      : ${NOUVEAU_DRM_CURRENT_PERFLVL}"

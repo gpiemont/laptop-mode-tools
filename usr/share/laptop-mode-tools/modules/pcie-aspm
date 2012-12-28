@@ -9,8 +9,6 @@ if [ x$CONTROL_PCIE_ASPM = x1 ] ; then
 
 	if [ -f $PCI_ASPM_OUTPUT ]; then
 
-		PCIE_ASPM_CURRENT_PROFILE="$(cat $PCIE_ASPM_OUTPUT | sed  "s;.*\(\[.*\]\).*;\1;" | tr -d [[^]] )"
-
 		if [ $ON_AC -eq 1 ]; then
 			if [ "$ACTIVATE" -eq 1 ]; then
 				PCIE_ASPM_COMMAND="$LM_AC_PCIE_ASPM_COMMAND"
@@ -25,6 +23,8 @@ if [ x$CONTROL_PCIE_ASPM = x1 ] ; then
 		fi
 	
 		if [ "$FORCE" -ne 0 -o "$PCIE_ASPM_COMMAND" != "$OLD_PCIE_ASPM_COMMAND" ] ; then
+			PCIE_ASPM_CURRENT_PROFILE="$(cat $PCIE_ASPM_OUTPUT | sed  "s;.*\(\[.*\]\).*;\1;" | tr -d [[^]] )"
+
 			log "VERBOSE" "Current PCI-E Link Link mode   : ${PCIE_ASPM_CURRENT_PROFILE}"
 			log "VERBOSE" "Executing : $PCIE_ASPM_COMMAND > $PCIE_ASPM_OUTPUT "
 
