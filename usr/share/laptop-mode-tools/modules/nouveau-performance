@@ -3,12 +3,12 @@
 # Laptop mode tools module: control performance level on Nouveau managed cards
 #
 
-
 # Based on LCD Brightness control module
 
 if [ x$CONTROL_NOUVEAU_PERFORMANCE = x1 ] ; then
 
-	if [ $ON_AC -eq 1 ]; then
+   if [ -f ${NOUVEAU_DRM_PERFLVL_OUTPUT} ]; then
+     	if [ $ON_AC -eq 1 ]; then
 		if [ "$ACTIVATE" -eq 1 ]; then
 			NOUVEAU_PERFLVL_COMMAND="$LM_AC_NOUVEAU_PERFLVL_COMMAND"
 		else
@@ -44,5 +44,6 @@ if [ x$CONTROL_NOUVEAU_PERFORMANCE = x1 ] ; then
 	else
 		log "VERBOSE" "Not setting nouveau's performance level -- command was the same as last time."
 	fi
+    fi
 fi
 
