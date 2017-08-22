@@ -57,11 +57,11 @@ laptop-mode-tools.pcie_aspm
 
  Restart laptop-mode when the module is configured:
 
- # systemctl restart laptop-mode.service 
+ \# systemctl restart laptop-mode.service 
 
  or 
 
- # /etc/rc.d/laptop-mode restart
+ \# /etc/rc.d/laptop-mode restart
 
  Screen should "zap" for an instant (actually that's what nouveau does when recklocking the card), and that means that power management for the current laptop state
  has been started.
