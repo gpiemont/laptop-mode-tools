@@ -6,7 +6,7 @@ laptop-mode-tools.nouveau
  of a nouveau-driven card (currently limited to performance level checking/switching, where possible). 
  This files are meant to be used within the laptop-mode framework.
 
-#How to install and configure
+# How to install and configure
 
  Download the tarball of this git archive (or clone the git repository) and unpack it directly into /
  (or manually copy the two files as they are).
@@ -35,7 +35,7 @@ laptop-mode-tools.pcie_aspm
  This package provides also a simple module for the pcie-aspm link tuning. Your laptop can benefit from it, 
  expecially when working aside the nouveau module, indeed.
 
-#How to install and configure
+# How to install and configure
 
  The installation procedure of the two files (etc/laptop-mode/conf.d/pcie_aspm.conf and 
  usr/share/pcie_aspm/module/pcie_aspm) is the same as nouveau's.
@@ -53,7 +53,7 @@ laptop-mode-tools.pcie_aspm
  
   CONTROL_PCIE_ASPM=[0,1]                     # Enables/disables the module
  
-#Enabling power management
+# Enabling power management
 
  Restart laptop-mode when the module is configured:
 
@@ -66,13 +66,13 @@ laptop-mode-tools.pcie_aspm
  Screen should "zap" for an instant (actually that's what nouveau does when recklocking the card), and that means that power management for the current laptop state
  has been started.
 
-#Debugging
+# Debugging
 
  You could increase verboseness of the laptop-mode subsystem by setting VERBOSE=1 in /etc/laptop-mode/laptop-mode.conf
  or enable module's debugging with DEBUG=1 in /etc/laptop-mode/conf.d/<module>.conf
 
  Check /var/log/boot.log for the output messages.
  
-#License
+# License
 
  This package is distributed under the version 2 of the General Public License.
